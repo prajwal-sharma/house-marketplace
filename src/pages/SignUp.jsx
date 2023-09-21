@@ -1,5 +1,9 @@
 import { useState } from "react";
+import {toast} from 'react-toastify'
 import { Link, useNavigate } from "react-router-dom";
+import {getAuth ,createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { setDoc , doc, serverTimestamp } from "firebase/firestore";
+import {db} from '../firebase.config'; 
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -21,13 +25,39 @@ function SignUp() {
         }));
   };
 
+  const onSubmit = async (e)=>{
+    e.preventDefault()
+
+    try{
+      const auth = getAuth()
+
+      const userCredentials = await createUserWithEmailAndPassword(auth ,email,password)
+
+      const user = userCredentials.user
+      updateProfile(auth.currentUser , {
+        displayName : name
+      })
+
+      const formDataCopy = {...formData}
+
+      delete formDataCopy.password
+      formDataCopy.timeStamp = serverTimestamp()
+
+      await setDoc(doc(db,'users', user.uid),formDataCopy)
+
+      navigate('/')
+    }catch(error){
+      toast.error("Something Went wrong with registration!")
+    }
+  }
+
   return (
     <>
       <div className="pageContainer">
         <header>
           <p className="pageHeader">Welcome Back!</p>
         </header>
-        <form>
+        <form onSubmit={onSubmit}>
         <input
             type="text"
             className="nameInput"
@@ -60,9 +90,9 @@ function SignUp() {
               onClick={() => setShowPassword((prevState) => !prevState)}
             />
           </div>
-          <Link to="/forgot-password" className="forgotPasswordLInk">
+          {/* <Link to="/forgot-password" className="forgotPasswordLInk">
             Forgot Password?
-          </Link>
+          </Link> */}
           <div className="signInBar">
             <p className="signInText">Sign In</p>
             <button className="signInButton">
