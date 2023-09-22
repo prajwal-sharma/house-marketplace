@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import OAuth from "../components/OAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
@@ -75,13 +76,13 @@ function SignIn() {
             Forgot Password?
           </Link>
           <div className="signUpBar">
-            <p className="signUpText">Sign Up</p>
+            <p className="signUpText">Sign In</p>
             <button className="signInButton">
               <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
             </button>
           </div>
         </form>
-        {/* Google oAuth */}
+        <OAuth></OAuth>
         <Link to='/sign-up' className="registerLink" >Sign Up Instead</Link>
       </div>
     </>

@@ -6,7 +6,7 @@ import { setDoc , doc, serverTimestamp } from "firebase/firestore";
 import {db} from '../firebase.config'; 
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
-
+import OAuth from "../components/OAuth";
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -94,13 +94,13 @@ function SignUp() {
             Forgot Password?
           </Link> */}
           <div className="signInBar">
-            <p className="signInText">Sign In</p>
+            <p className="signInText">Sign Up</p>
             <button className="signInButton">
               <ArrowRightIcon fill="#ffffff" width="34px" height="34px"/>
             </button>
           </div>
         </form>
-        {/* Google oAuth */}
+        <OAuth></OAuth>
         <Link to='/sign-in' className="registerLink" >Sign In Instead</Link>
       </div>
     </>
